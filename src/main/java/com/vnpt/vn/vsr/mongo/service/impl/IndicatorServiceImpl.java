@@ -28,6 +28,10 @@ public class IndicatorServiceImpl extends AbstractBaseServiceImpl<Indicator, Str
         return indicatorRepository.findIndicatorsByCriteria(tenantId, objId);
     }
 
+    List<Indicator> findIndicatorsByCriteria2(String tenantId, String objId) {
+        return indicatorRepository.findIndicatorsByCriteria2(tenantId, objId);
+    }
+
     public List<Indicator> getIndicatorsIsExist(String tenantId, String objId, String orgId, String timeId) {
         List<Indicator> indicators = findIndicatorsByCriteria(tenantId, objId);
         for (Indicator indicator : indicators) {

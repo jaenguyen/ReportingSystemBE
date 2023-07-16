@@ -27,8 +27,15 @@ public class OrAttributeServiceImpl extends AbstractBaseServiceImpl<OrAttribute,
         return orAttributeRepository.findAttributesHasFormula(objId);
     }
 
-    public List<OrAttribute> findOrAttributesByObjIdOrderByAttrId(String objId) {
-        return orAttributeRepository.findOrAttributesByObjIdOrderByAttrId(objId);
+    public void setFormulaChild(List<OrAttribute> orAttributeList) {
+        for (OrAttribute attribute : orAttributeList) {
+            String formula = attribute.getFormula();
+            String formulaBasic = "";
+            if (formula != null && !formula.isEmpty()) {
+                    formulaBasic = getFormulaChild(formula, orAttributeList);
+            }
+            attribute.setFormulaBasic(formulaBasic);
+        }
     }
 
     public String getFormulaChild(String formulaInput, List<OrAttribute> orAttributeList) {
@@ -38,8 +45,8 @@ public class OrAttributeServiceImpl extends AbstractBaseServiceImpl<OrAttribute,
             Matcher matcher = Pattern.compile("\\{(.*?)\\}").matcher(formula1);
             if (matcher.find()) {
                 String match = matcher.group(0);
-                int isCummulativeCode = CummulativeCode.isCummulativeCode(match);
-                if (isCummulativeCode == 0) {
+                CummulativeCode cummulativeCode = CummulativeCode.getValue(match);
+                if (cummulativeCode == null) {
                     String attributeCode = match.replace("{", "").replace("}", "");
                     for (OrAttribute orAttribute : orAttributeList) {
                         if (orAttribute.getAttrCode().equals(attributeCode)) {
@@ -53,6 +60,5 @@ public class OrAttributeServiceImpl extends AbstractBaseServiceImpl<OrAttribute,
             }
         }
         return "(" + formula + ")";
-
     }
 }

@@ -282,5 +282,4 @@ public class Object extends AbstractBaseEntity {
 //    @Field(value = "TENANT_NAME")
 //    @JsonProperty(value = "TENANT_NAME")
 //    private String tenantName;
-
 }

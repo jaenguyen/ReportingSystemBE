@@ -1,11 +1,58 @@
 package com.vnpt.vn.vsr.mongo.common;
 
-public class CummulativeCode {
+public enum CummulativeCode {
 
-    public static String getString(int value) {
+    PRE(1),
+    INC_M(2),
+    INC_Q(3),
+    INC_CQ(4),
+    MN_INC(5),
+    INCMN_PRE(6),
+    YPRE(7),
+    MPRE(8),
+    PQY(9),
+    INC_D(10),
+    INC_CD(11),
+    EXTM(12),
+    EXM(13);
+
+    private final int value;
+
+    private CummulativeCode(int value) {
+        this.value = value;
+    }
+
+    public int getInteger() {
+        return value;
+    }
+
+    public String getString() {
+        return valueOf(value);
+    }
+
+    public static CummulativeCode getValue(String text) {
+        if (text.contains("PRE")) return PRE;
+        else if (text.contains("INC_M")) return INC_M;
+        else if (text.contains("INC_Q")) return INC_Q;
+        else if (text.contains("INC_CQ")) return INC_CQ;
+        else if (text.contains("MN_INC")) return MN_INC;
+        else if (text.contains("INCMN_PRE")) return INCMN_PRE;
+        else if (text.contains("YPRE")) return YPRE;
+        else if (text.contains("12MPRE")) return MPRE;
+        else if (text.contains("PQY")) return PQY;
+        else if (text.contains("INC_D")) return INC_D;
+        else if (text.contains("INC_CD")) return INC_CD;
+        else if (text.contains("EXTM")) return EXTM;
+        else if (text.contains("EXM")) return EXM;
+        else return null;
+    }
+
+    public String valueOf(int value) {
         switch (value) {
+            case -1:
+                return "ANY";
             case 1:
-                return "EXM";
+                return "PRE";
             case 2:
                 return "INC_M";
             case 3:
@@ -15,13 +62,13 @@ public class CummulativeCode {
             case 5:
                 return "MN_INC";
             case 6:
-                return "PQY";
+                return "INCMN_PRE";
             case 7:
                 return "YPRE";
             case 8:
-                return "INCMN_PRE";
-            case 9:
                 return "12MPRE";
+            case 9:
+                return "PQY";
             case 10:
                 return "INC_D";
             case 11:
@@ -29,27 +76,9 @@ public class CummulativeCode {
             case 12:
                 return "EXTM";
             case 13:
-                return "PRE";
-            default:
-                return null;
+                return "EXM";
         }
-    }
-
-    public static int isCummulativeCode(String formula) {
-        if (formula.contains("EXM")) return 1;
-        else if (formula.contains("INC_M")) return 2;
-        else if (formula.contains("INC_Q")) return 3;
-        else if (formula.contains("INC_CQ")) return 4;
-        else if (formula.contains("MN_INC")) return 5;
-        else if (formula.contains("PQY")) return 6;
-        else if (formula.contains("YPRE")) return 7;
-        else if (formula.contains("INCMN_PRE")) return 8;
-        else if (formula.contains("12MPRE")) return 9;
-        else if (formula.contains("INC_D")) return 10;
-        else if (formula.contains("INC_CD")) return 11;
-        else if (formula.contains("EXTM")) return 12;
-        else if (formula.contains("PRE")) return 13;
-        else return 0;
+        return "UNKNOWN";
     }
 }
 
