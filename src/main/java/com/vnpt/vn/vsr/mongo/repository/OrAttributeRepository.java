@@ -16,4 +16,6 @@ public interface OrAttributeRepository extends AbstractBaseRepository<OrAttribut
             "'$or': [{'IS_PREF': null}, {'IS_PREF': { $ne: 1 }}]" +
             "}")
     List<OrAttribute> findAttributesHasFormula(String objId);
+
+    OrAttribute findByObjIdAndAndAttrCode(String objId, String attrCode);
 }

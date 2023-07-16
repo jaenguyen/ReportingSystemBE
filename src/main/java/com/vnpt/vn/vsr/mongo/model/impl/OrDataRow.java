@@ -923,4 +923,16 @@ public class OrDataRow extends AbstractBaseEntity {
 //    private String parentFieldId;
 //    @Field(value = "PARENT_IND_ID")
 //    private String parentIndId;
+
+    public void setField(String fld_code, String value) throws Exception {
+        java.lang.reflect.Field field = this.getClass().getDeclaredField(fld_code);
+        field.setAccessible(true);
+        field.set(this, value);
+    }
+
+    public String getField(String fld_code) throws Exception {
+        java.lang.reflect.Field field = this.getClass().getDeclaredField(fld_code);
+        field.setAccessible(true);
+        return (String) field.get(this);
+    }
 }

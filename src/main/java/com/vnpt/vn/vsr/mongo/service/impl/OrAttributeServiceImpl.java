@@ -27,6 +27,10 @@ public class OrAttributeServiceImpl extends AbstractBaseServiceImpl<OrAttribute,
         return orAttributeRepository.findAttributesHasFormula(objId);
     }
 
+    public OrAttribute findByObjIdAndAndAttrCode(String objId, String attrCode) {
+        return orAttributeRepository.findByObjIdAndAndAttrCode(objId, attrCode);
+    }
+
     public void setFormulaChild(List<OrAttribute> orAttributeList) {
         for (OrAttribute attribute : orAttributeList) {
             String formula = attribute.getFormula();

@@ -2,6 +2,7 @@ package com.vnpt.vn.vsr.mongo.common;
 
 public enum CummulativeCode {
 
+    ANY(-1),
     PRE(1),
     INC_M(2),
     INC_Q(3),

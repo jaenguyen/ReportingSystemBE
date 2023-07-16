@@ -3,6 +3,8 @@ package com.vnpt.vn.vsr.mongo.common;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.NumberFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 public class Utils {
@@ -70,5 +72,15 @@ public class Utils {
             return new BigDecimal(val.toString()).setScale(3, RoundingMode.HALF_UP).doubleValue();
         else
             return val;
+    }
+
+    public static String dateToYearMonth(String dateInput) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate localDate = LocalDate.parse(dateInput, formatter);
+        localDate = localDate.plusMonths(1);
+
+        DateTimeFormatter resultFormatter = DateTimeFormatter.ofPattern("yyyyMM");
+        String resultString = localDate.format(resultFormatter);
+        return resultString;
     }
 }
