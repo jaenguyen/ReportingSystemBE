@@ -22,4 +22,10 @@ public interface IndicatorRepository extends AbstractBaseRepository<Indicator, S
             "'ATTR_FORMULA_FORBIT': 1" +
             "}")
     List<Indicator> findIndicatorsByCriteria2(String tenantId, String objId);
+
+    @Query("{" +
+            "'OBJ_ID': ?0, " +
+            "'ATTR_FORMULA_FORBIT': 1" +
+            "}")
+    List<Indicator> findIndicatorsByCriteria3(String objId);
 }

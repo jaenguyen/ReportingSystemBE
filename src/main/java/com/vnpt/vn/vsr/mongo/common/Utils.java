@@ -74,13 +74,37 @@ public class Utils {
             return val;
     }
 
-    public static String dateToYearMonth(String dateInput) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate localDate = LocalDate.parse(dateInput, formatter);
-        localDate = localDate.plusMonths(1);
-
-        DateTimeFormatter resultFormatter = DateTimeFormatter.ofPattern("yyyyMM");
-        String resultString = localDate.format(resultFormatter);
+    public static String dateFormat(String dateInput, int type) {
+        long count = 0;
+        DateTimeFormatter formatter = null;
+        LocalDate localDate = null;
+        String resultString;
+        if (type == 1 || type == 2 || type == 7 || type == 8) {
+            if (type == 1) {
+                dateInput += "-01";
+                count = 1;
+            }
+            if (type == 2) count = -1;
+            if (type == 7) count = -2;
+            if (type == 8) count = -6;
+            formatter = DateTimeFormatter.ofPattern("yyyyMM");
+            localDate = LocalDate.parse(dateInput, formatter);
+            localDate = localDate.plusMonths(count);
+        } else if (type == 4) {
+            count = -12;
+            formatter = DateTimeFormatter.ofPattern("yyyy");
+            localDate = LocalDate.parse(dateInput, formatter);
+            localDate = localDate.plusMonths(count);
+        } else if (type == 5) {
+            formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+            localDate = LocalDate.parse(dateInput, formatter);
+            localDate = localDate.plusDays(count);
+        } else if (type == 3) {
+//            localDate = LocalDate.parse(dateInput, formatter);
+//            localDate = localDate.plusDays(count);
+//            resultFormatter = DateTimeFormatter.ofPattern("yyyyQ");
+        }
+        resultString = localDate.format(formatter);
         return resultString;
     }
 }

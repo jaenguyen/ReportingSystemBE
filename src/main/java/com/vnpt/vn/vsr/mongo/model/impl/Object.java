@@ -32,7 +32,7 @@ public class Object extends AbstractBaseEntity {
 
     @Field(value = "ORG_TYPE")
     @JsonProperty(value = "ORG_TYPE")
-    private int orgType;
+    private String orgType;
 
     @Field(value = "ORG_TYPE_NAME")
     @JsonProperty(value = "ORG_TYPE_NAME")
