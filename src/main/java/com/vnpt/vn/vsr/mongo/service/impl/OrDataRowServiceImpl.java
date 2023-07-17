@@ -60,6 +60,38 @@ public class OrDataRowServiceImpl extends AbstractBaseServiceImpl<OrDataRow, Str
         return results.getMappedResults();
     }
 
+    public Response test(String objId, String tenantID, String orgId, String timeId, int submitType, String timeIdPre, String subtimeId, String indId, String r_time) throws Exception {
+//        Object object = objectService.findObjectByObjId(Long.parseLong(objId));
+
+//        List<Indicator> indicators = indicatorService.findIndicatorsByCriteria(tenantID, objId);
+//        List<Indicator> indicators1 = indicatorService.findIndicatorsByCriteria2(tenantID, objId);
+
+//        List<OrAttribute> orAttributes = orAttributeService.findAttributesHasFormula(objId);
+//        OrAttribute orAttribute = orAttributeService.findByObjIdAndAndAttrCode(objId, "TT_KTXH_THANG_10");
+//        OrAttribute orAttribute1 = orAttributeService.findByObjIdAndAndAttrCode(objId, "TT_KTXH_THANG_11");
+
+//        OrDataRow orDataRow1 = orDataRowRepository.findByOrgIdAndTimeIdAndIndId(orgId, timeId, "435");
+//        OrDataRow orDataRow2 = orDataRowRepository.findByOrgIdAndTimeIdAndIndId(orgId, timeId, "436");
+//        OrDataRow orDataRow3 = orDataRowRepository.findByOrgIdAndTimeIdAndIndId(orgId, timeId, "437");
+//
+//        orDataRow1.setFN01("231");
+//        orDataRow2.setFN02("321");
+//        orDataRow3.setField("FN03", "100");
+//        String tmp = orDataRow1.getField("FN01");
+//        List<OrDataRow> orDataRows = new ArrayList<>();
+//        orDataRows.add(orDataRow1);
+//        orDataRows.add(orDataRow2);
+//        orDataRowRepository.save(orDataRow3);
+//        orDataRowRepository.saveAll(orDataRows);
+//        List<OrDataRow> orDataRows = orDataRowRepository.findByOrgIdAndObjIdAndTimeId(orgId, objId, timeId);
+//        List<OrDataRow> orDataRows1= orDataRowRepository.findF1(orgId, timeId, subtimeId, indId);
+//        List<OrDataRow> orDataRows2 = orDataRowRepository.findF2(orgId, subtimeId, indId);
+//        List<OrDataRow> orDataRows3 = orDataRowRepository.findF3(orgId, timeId, indId);
+//        List<OrDataRow> orDataRows4 = orDataRowRepository.findF4(orgId, timeId, r_time, subtimeId, indId);
+
+            return null;
+    }
+
     public Response getDataAndPreTime(String objId, String tenantId, String orgId, String timeId, int submitType, String timeIdPre) throws Exception {
         Object object = objectService.findObjectByObjId(Long.parseLong(objId));
         if (object == null) {

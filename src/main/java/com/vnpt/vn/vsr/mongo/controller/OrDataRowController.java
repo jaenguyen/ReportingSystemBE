@@ -21,4 +21,17 @@ public class OrDataRowController {
                                       @PathVariable String timeIdPre) throws Exception {
         return orDataRowService.getDataAndPreTime(objId, tenantID, orgId, timeId, submitType, timeIdPre);
     }
+
+    @GetMapping(value = "/test/{objId}/{tenantID}/{orgId}/{timeId}/{submitType}/{timeIdPre}/{subtimeId}/{indId}/{r_time}")
+    public Response test(@PathVariable String objId,
+                         @PathVariable String tenantID,
+                         @PathVariable String orgId,
+                         @PathVariable String timeId,
+                         @PathVariable int submitType,
+                         @PathVariable String timeIdPre,
+                         @PathVariable String subtimeId,
+                         @PathVariable String indId,
+                         @PathVariable String r_time) throws Exception {
+        return orDataRowService.test(objId, tenantID, orgId, timeId, submitType, timeIdPre, subtimeId, indId, r_time);
+    }
 }
