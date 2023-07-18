@@ -1,5 +1,8 @@
 package com.vnpt.vn.vsr.mongo.common;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ResponseConstant {
 
     public static final String MESSAGE_OK = "Thành công";

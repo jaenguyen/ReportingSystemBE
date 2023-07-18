@@ -32,14 +32,14 @@ public enum CummulativeCode {
     }
 
     public static CummulativeCode getValue(String text) {
-        if (text.contains("PRE")) return PRE;
+        if (text.contains("12MPRE")) return MPRE;
         else if (text.contains("INC_M")) return INC_M;
         else if (text.contains("INC_Q")) return INC_Q;
         else if (text.contains("INC_CQ")) return INC_CQ;
         else if (text.contains("MN_INC")) return MN_INC;
         else if (text.contains("INCMN_PRE")) return INCMN_PRE;
         else if (text.contains("YPRE")) return YPRE;
-        else if (text.contains("12MPRE")) return MPRE;
+        else if (text.contains("PRE")) return PRE;
         else if (text.contains("PQY")) return PQY;
         else if (text.contains("INC_D")) return INC_D;
         else if (text.contains("INC_CD")) return INC_CD;

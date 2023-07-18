@@ -39,28 +39,24 @@ public class OrDataRowServiceImpl extends AbstractBaseServiceImpl<OrDataRow, Str
         this.mongoTemplate = mongoTemplate;
     }
 
-    public List<OrDataRow> findF5(String orgId, String timeId, String indId) {
-        int searchTimeId = Integer.parseInt(timeId);
+    public List<OrDataRow> findF5(String timeId, String indId) {
+        int quarter = (Integer.parseInt(timeId.substring(4)) - 1) / 3 + 1;
+        int year = Integer.parseInt(timeId.substring(0, 4));
 
-        // Aggregation pipeline để so sánh TIME_ID với thời gian cụ thể và trả về kết quả
-        Aggregation aggregation = Aggregation.newAggregation(
-                Aggregation.match(Criteria.where("ORG_ID").is(orgId)),
-                Aggregation.match(Criteria.where("IND_ID").is(indId)),
-                Aggregation.project()
-                        .andExpression("substr(TIME_ID, 1, 4)").as("YEAR"),
-//                        .andExpression("substr(TIME_ID, 5, 6)").as("QUARTER"),
-                Aggregation.match(Criteria.where("YEAR").is(String.valueOf(searchTimeId / 100)))
-//                Aggregation.match(Criteria.where("QUARTER").is((searchTimeId % 100 + 2) / 3))
+        AggregationOperation matchOperation = Aggregation.match(
+                Criteria.where("TIME_ID").regex("^" + year + "(0?" + (quarter*3-2) + "|0?" + (quarter*3-1) + "|0?" + (quarter*3) + ")")
+                        .and("IND_ID").is(indId)
         );
 
-        // Thực hiện truy vấn aggregation và trả về kết quả
+        Aggregation aggregation = Aggregation.newAggregation(matchOperation);
         AggregationResults<OrDataRow> results = mongoTemplate.aggregate(aggregation, "OR_DATAROW", OrDataRow.class);
+
         return results.getMappedResults();
     }
 
     public Response test(String objId, String tenantID, String orgId, String timeId, int submitType, String timeIdPre, String subtimeId, String indId, String r_time) throws Exception {
-        List<OrDataRow> orDataRows5 = findF5(orgId, timeId, indId);
-        return null;
+        List<OrDataRow> data = findF5(timeId, indId);
+        return new Response(0, ResponseConstant.MESSAGE_OK, data);
     }
 
     public Response getDataAndPreTime(String objId, String tenantId, String orgId, String timeId, int submitType, String timeIdPre) throws Exception {
@@ -96,7 +92,6 @@ public class OrDataRowServiceImpl extends AbstractBaseServiceImpl<OrDataRow, Str
         for (OrAttribute orAttribute : orAttributes) {
             String fld_code = orAttribute.getFldCode();
             String r_form = orAttribute.getFormulaBasic();
-            List<OrDataRow> orDataRowListUpdate = null;
             CummulativeCode cummulativeCode = CummulativeCode.getValue(r_form);
             if (cummulativeCode != null) {
                 if (cummulativeCode.equals(CummulativeCode.MPRE) ||
@@ -117,13 +112,9 @@ public class OrDataRowServiceImpl extends AbstractBaseServiceImpl<OrDataRow, Str
         }
     }
     private void updateFLD_CODE(List<OrDataRow> orDataRowListUpdate, int flag, String fld_code, String r_form, String objId, String orgId, String timeId, int submitType, String timeIdPre) throws Exception {
-        String ind_id = "";
-        String fld_code_pre = "";
         for (OrDataRow orDataRow : orDataRowListUpdate) {
-            ind_id = orDataRow.getIndId();
-            fld_code_pre = getFLD_CODE_PRE(flag, ind_id, r_form, objId, orgId, timeId, submitType, timeIdPre);
             try {
-                orDataRow.setField(fld_code, fld_code_pre);
+                orDataRow.setField(fld_code, getFLD_CODE_PRE(flag, orDataRow.getIndId(), r_form, objId, orgId, timeId, submitType, timeIdPre));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -131,14 +122,12 @@ public class OrDataRowServiceImpl extends AbstractBaseServiceImpl<OrDataRow, Str
         saveAll(orDataRowListUpdate);
     }
 
-    private String getFLD_CODE_PRE(int flag, String ind_id, String r_form, String objId, String orgId, String timeId, int submitType, String timeIdPre) throws Exception {
-        String attrCode = "";
-        String fld_code_pre = "";
-        CummulativeCode cummulativeCode = CummulativeCode.ANY;
-        String subTimeId = "";
-        long sum = 0;
-        String r_sql = "";
-        List<OrDataRow> orDataRowQuery = new ArrayList<>();
+    private String getFLD_CODE_PRE(int flag, String ind_id, String r_form, String objId, String orgId, String timeId,
+                                   int submitType, String timeIdPre) throws Exception {
+        String attrCode, fld_code_pre, subTimeId, r_sql;
+        CummulativeCode cummulativeCode;
+        long sum;
+        List<OrDataRow> orDataRowQuery;
         while (true) {
             Matcher matcher = Pattern.compile("\\{(.*?)\\}").matcher(r_form);
             if (matcher.find()) {
@@ -159,8 +148,8 @@ public class OrDataRowServiceImpl extends AbstractBaseServiceImpl<OrDataRow, Str
                         cummulativeCode.equals(CummulativeCode.INC_Q) ||
                         cummulativeCode.equals(CummulativeCode.INC_D) || //
                         cummulativeCode.equals(CummulativeCode.INC_CD)) {//
-                    subTimeId = timeId.substring(0, 4);
-                    orDataRowQuery = orDataRowRepository.findF1(orgId, timeId, subTimeId, ind_id);
+                    subTimeId = Utils.substrSQL(timeId, 0 ,4);
+                    orDataRowQuery = orDataRowRepository.findF1(timeId, subTimeId, ind_id);
                     if (cummulativeCode.equals(CummulativeCode.INC_D) || cummulativeCode.equals(CummulativeCode.INC_CD)) {
                         List<Indicator> indicators = indicatorService.findIndicatorsByCriteria3(objId);
                         Set<Long> indicatorIds = indicators.stream().map(Indicator::getIndId).collect(Collectors.toSet());
@@ -171,34 +160,36 @@ public class OrDataRowServiceImpl extends AbstractBaseServiceImpl<OrDataRow, Str
                         }
                     }
                 } else if (cummulativeCode.equals(CummulativeCode.MPRE)) {
-                    subTimeId = String.valueOf(Long.parseLong(timeId.substring(0, 4)) - 1);
-                    orDataRowQuery = orDataRowRepository.findF2(orgId, subTimeId, ind_id);
+                    subTimeId = String.valueOf(Long.parseLong(Utils.substrSQL(timeId, 0, 4))-1);
+                    orDataRowQuery = orDataRowRepository.findF2(subTimeId, ind_id);
                 } else if (cummulativeCode.equals(CummulativeCode.YPRE) ||
                         cummulativeCode.equals(CummulativeCode.EXTM) ||
                         cummulativeCode.equals(CummulativeCode.PQY)) {
                     if (cummulativeCode.equals(CummulativeCode.YPRE)) {
-                        subTimeId = String.valueOf(Long.parseLong(timeId.substring(0, 4)) - 1) +
-                                String.valueOf(Long.parseLong(timeId.substring(4, 6)));
-                    } else if (cummulativeCode.equals(CummulativeCode.EXTM)) {
-                        subTimeId = Utils.dateFormat(timeId, 1);
+                        subTimeId = Utils.concat(Long.parseLong(Utils.substrSQL(timeId, 0, 4)) - 1,
+                                Utils.substrSQL(timeId, 5, 6));
+                    } else if (cummulativeCode.equals(CummulativeCode.PQY)) {
+                        subTimeId = Utils.concat(Long.parseLong(Utils.substrSQL(timeId, 0, 4)) - 1,
+                                Utils.substrSQL(timeId, 5, 5));
                     } else {
-                        subTimeId = String.valueOf(Long.parseLong(timeId.substring(0, 4)) - 1) +
-                                String.valueOf(Long.parseLong(timeId.substring(4, 5)));
+                        long year = Long.parseLong(timeId.substring(0,4)) - 1;
+                        String month = Utils.substrSQL(timeId, 5, 6);
+                        subTimeId = Utils.dateFormat(Utils.concat(year, month), 99);
                     }
-                    orDataRowQuery = orDataRowRepository.findF3(orgId, subTimeId, ind_id);
+                    orDataRowQuery = orDataRowRepository.findF3(subTimeId, ind_id);
                 } else if (cummulativeCode.equals(CummulativeCode.EXM)) {
-                    String year = timeId.substring(0,4);
-                    String month = timeId.substring(4,6);
-                    String date = year + month;
+                    String year = Utils.substrSQL(timeId, 0,4);
+                    String month = Utils.substrSQL(timeId, 5,6);
+                    String date = Utils.concat(year, month);
                     if (month.equals("01")) {
-                        orDataRowQuery = orDataRowRepository.findF4(orgId, timeId, date, year, ind_id);
+                        orDataRowQuery = orDataRowRepository.findF4(timeId, date, year, ind_id);
                     } else {
-                        orDataRowQuery = orDataRowRepository.findF4(orgId, timeId, year, year, ind_id);
+                        orDataRowQuery = orDataRowRepository.findF4(timeId, year, year, ind_id);
                     }
                 } else if (cummulativeCode.equals(CummulativeCode.INC_CQ)) {
-                    orDataRowQuery = findF5(orgId, timeId, ind_id);
+                    orDataRowQuery = findF5(timeId, ind_id);
                 } else {
-                    String prefix = "";
+                    String prefix;
                     if (cummulativeCode.equals(CummulativeCode.PRE)) {
                         attrCode = r_tmp.substring(r_tmp.indexOf("#") + 1);
                         prefix = r_tmp.substring(0, r_tmp.indexOf("#"));
@@ -208,15 +199,15 @@ public class OrDataRowServiceImpl extends AbstractBaseServiceImpl<OrDataRow, Str
                     }
                     OrAttribute attribute = orAttributeService.findByObjIdAndAndAttrCode(objId, attrCode);
                     fld_code_pre = attribute.getFldCode();
-                    String r_time_id = timeId;
+                    subTimeId = timeId;
                     if (prefix.equalsIgnoreCase("PRE")) {
                         if (submitType == 6) {
-                            r_time_id = timeIdPre;
+                            subTimeId = timeIdPre;
                         } else {
-                            r_time_id = Utils.dateFormat(timeId, submitType);
+                            subTimeId = Utils.dateFormat(timeId, submitType);
                         }
                     }
-                    orDataRowQuery = orDataRowRepository.findF3(orgId, r_time_id, ind_id);
+                    orDataRowQuery = orDataRowRepository.findF3(subTimeId, ind_id);
                 }
                 for (OrDataRow orDataRow : orDataRowQuery) {
                     String value = orDataRow.getField(fld_code_pre);
@@ -233,7 +224,7 @@ public class OrDataRowServiceImpl extends AbstractBaseServiceImpl<OrDataRow, Str
                 } else {
                     r_sql = String.valueOf(sum);
                 }
-                r_form.replace(match, r_sql);
+                r_form = r_form.replace(match, r_sql);
             } else {
                 break;
             }
@@ -247,7 +238,7 @@ public class OrDataRowServiceImpl extends AbstractBaseServiceImpl<OrDataRow, Str
         List<Indicator> indicators = indicatorService.findIndicatorsByCriteria2(tenantId, objId);
         Set<Long> indicatorIds = indicators.stream().map(Indicator::getIndId).collect(Collectors.toSet());
         for (OrDataRow orDataRow : orDataRowListUpdateOp2) {
-            if (!indicatorIds.contains(orDataRow.getIndId())) {
+            if (!indicatorIds.contains(Long.parseLong(orDataRow.getIndId()))) {
                 orDataRowListUpdateOp1.add(orDataRow);
             }
         }

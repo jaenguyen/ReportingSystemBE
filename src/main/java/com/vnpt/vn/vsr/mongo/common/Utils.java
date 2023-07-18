@@ -74,37 +74,68 @@ public class Utils {
             return val;
     }
 
-    public static String dateFormat(String dateInput, int type) {
-        long count = 0;
-        DateTimeFormatter formatter = null;
-        LocalDate localDate = null;
-        String resultString;
-        if (type == 1 || type == 2 || type == 7 || type == 8) {
-            if (type == 1) {
-                dateInput += "-01";
-                count = 1;
-            }
-            if (type == 2) count = -1;
-            if (type == 7) count = -2;
-            if (type == 8) count = -6;
-            formatter = DateTimeFormatter.ofPattern("yyyyMM");
-            localDate = LocalDate.parse(dateInput, formatter);
-            localDate = localDate.plusMonths(count);
-        } else if (type == 4) {
-            count = -12;
-            formatter = DateTimeFormatter.ofPattern("yyyy");
-            localDate = LocalDate.parse(dateInput, formatter);
-            localDate = localDate.plusMonths(count);
-        } else if (type == 5) {
-            formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-            localDate = LocalDate.parse(dateInput, formatter);
-            localDate = localDate.plusDays(count);
-        } else if (type == 3) {
-//            localDate = LocalDate.parse(dateInput, formatter);
-//            localDate = localDate.plusDays(count);
-//            resultFormatter = DateTimeFormatter.ofPattern("yyyyQ");
+    public static String concat(Object... numbers) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < numbers.length; i++) {
+            sb.append(numbers[i]);
         }
-        resultString = localDate.format(formatter);
-        return resultString;
+        return sb.toString();
+    }
+
+    // chưa thêm trường hợp start < 0
+    public static String substrSQL(String s, int start, int len) {
+        if (start == 0) {
+            start++;
+        }
+        int length = s.length(), end;
+        if (start + len == length) {
+            end = length;
+        } else if (start + len > length) {
+            end = ++length;
+        } else {
+            end = start + len;
+        }
+        return s.substring(--start, --end);
+    }
+
+    public static String plusMonthForYYYYQ(String timeId) {
+        long year = Long.parseLong(timeId.substring(0, 4));
+        long quy = Long.parseLong(timeId.substring(4));
+        quy++;
+        year += (quy - 1) / 4;
+        quy = (quy - 1) % 4 + 1;
+        return concat(year, quy);
+    }
+
+    public static String dateFormat(String timeId, int submitType) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        DateTimeFormatter resultFormatter = null;
+        LocalDate localDate = null;
+        switch (submitType) {
+            case 4:
+                localDate = LocalDate.parse(timeId + "0101", formatter);
+                localDate = localDate.plusMonths(-12);
+                resultFormatter = DateTimeFormatter.ofPattern("yyyy");
+                break;
+            case 99:
+            case 2:
+            case 7:
+            case 8:
+                localDate = LocalDate.parse(timeId + "01", formatter);
+                if (submitType == 99) localDate = localDate.plusMonths(1);
+                if (submitType == 2) localDate = localDate.plusMonths(-1);
+                if (submitType == 7) localDate = localDate.plusMonths(-2);
+                if (submitType == 8) localDate = localDate.plusMonths(-6);
+                resultFormatter = DateTimeFormatter.ofPattern("yyyyMM");
+                break;
+            case 5:
+                localDate = LocalDate.parse(timeId, formatter);
+                localDate = localDate.plusDays(-1);
+                resultFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+                break;
+            case 3:
+                return plusMonthForYYYYQ(timeId);
+        }
+        return localDate.format(resultFormatter);
     }
 }

@@ -58,7 +58,7 @@ public class OrAttributeServiceImpl extends AbstractBaseServiceImpl<OrAttribute,
                         }
                     }
                 }
-                formula1.replace(match, "");
+                formula1 = formula1.replace(match, "");
             } else {
                 break;
             }
