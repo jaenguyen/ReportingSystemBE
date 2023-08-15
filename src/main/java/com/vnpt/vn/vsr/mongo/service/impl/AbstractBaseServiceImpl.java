@@ -1,6 +1,7 @@
 package com.vnpt.vn.vsr.mongo.service.impl;
 
 import com.vnpt.vn.vsr.mongo.model.AbstractBaseEntity;
+import com.vnpt.vn.vsr.mongo.model.payload.response.DataResponse;
 import com.vnpt.vn.vsr.mongo.repository.AbstractBaseRepository;
 import com.vnpt.vn.vsr.mongo.service.AbstractBaseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,14 +11,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
 @Transactional
-public abstract class AbstractBaseServiceImpl <T extends AbstractBaseEntity, ID extends Serializable>
+public abstract class AbstractBaseServiceImpl<T extends AbstractBaseEntity, ID extends Serializable>
         implements AbstractBaseService<T, ID> {
 
-    private AbstractBaseRepository<T, ID> abstractBaseRepository;
+    private final AbstractBaseRepository<T, ID> abstractBaseRepository;
 
     @Autowired
     public AbstractBaseServiceImpl(AbstractBaseRepository<T, ID> abstractBaseRepository) {
@@ -57,9 +59,9 @@ public abstract class AbstractBaseServiceImpl <T extends AbstractBaseEntity, ID 
     @Override
     public T updateById(T entity, ID entityId) {
         Optional<T> optional = abstractBaseRepository.findById(entityId);
-        if (optional.isPresent()) {
+        if(optional.isPresent()){
             return abstractBaseRepository.save(entity);
-        } else {
+        }else{
             return null;
         }
     }
@@ -73,4 +75,5 @@ public abstract class AbstractBaseServiceImpl <T extends AbstractBaseEntity, ID 
     public void deleteById(ID entityId) {
         abstractBaseRepository.deleteById(entityId);
     }
+
 }

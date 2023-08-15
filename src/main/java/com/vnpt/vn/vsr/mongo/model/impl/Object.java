@@ -26,6 +26,26 @@ public class Object extends AbstractBaseEntity {
     @JsonProperty(value = "OBJ_NAME")
     private String objName;
 
+    @Field(value = "PARENT_ID")
+    @JsonProperty(value = "PARENT_ID")
+    private String parentId;
+
+    @Field(value = "PARENT_NAME")
+    @JsonProperty(value = "PARENT_NAME")
+    private String parentName;
+
+    @Field(value = "IS_GROUP")
+    @JsonProperty(value = "IS_GROUP")
+    private int isGroup;
+
+    @Field(value = "IS_AUTO")
+    @JsonProperty(value = "IS_AUTO")
+    private int isAuto;
+
+    @Field(value = "ORG_ID")
+    @JsonProperty(value = "ORG_ID")
+    private String orgId;
+
     @Field(value = "ORG_NAME")
     @JsonProperty(value = "ORG_NAME")
     private String orgName;
@@ -38,22 +58,6 @@ public class Object extends AbstractBaseEntity {
     @JsonProperty(value = "ORG_TYPE_NAME")
     private String orgTypeName;
 
-    @Field(value = "PARENT_ID")
-    @JsonProperty(value = "PARENT_ID")
-    private long parentId;
-
-    @Field(value = "IS_GROUP")
-    @JsonProperty(value = "IS_GROUP")
-    private int isGroup;
-
-    @Field(value = "IS_AUTO")
-    @JsonProperty(value = "IS_AUTO")
-    private int isAuto;
-
-    @Field(value = "ORG_ID")
-    @JsonProperty(value = "ORG_ID")
-    private long orgId;
-
     @Field(value = "STATUS")
     @JsonProperty(value = "STATUS")
     private int status;
@@ -62,9 +66,17 @@ public class Object extends AbstractBaseEntity {
     @JsonProperty(value = "OBJ_TYPE")
     private String objType;
 
+    @Field(value = "OBJ_TYPE_NAME")
+    @JsonProperty(value = "OBJ_TYPE_NAME")
+    private String objTypeName;
+
     @Field(value = "SUBMIT_TYPE")
     @JsonProperty(value = "SUBMIT_TYPE")
     private String submitType;
+
+    @Field(value = "SUBMIT_TYPE_NAME")
+    @JsonProperty(value = "SUBMIT_TYPE_NAME")
+    private String submitTypeName;
 
     @Field(value = "DUE_DATE")
     @JsonProperty(value = "DUE_DATE")
@@ -73,6 +85,14 @@ public class Object extends AbstractBaseEntity {
     @Field(value = "PROGRAM_ID")
     @JsonProperty(value = "PROGRAM_ID")
     private String programId;
+
+    @Field(value = "PROGRAM_CODE")
+    @JsonProperty(value = "PROGRAM_CODE")
+    private String programCode;
+
+    @Field(value = "PROGRAM_NAME")
+    @JsonProperty(value = "PROGRAM_NAME")
+    private String programName;
 
     @Field(value = "TPL_PATH")
     @JsonProperty(value = "TPL_PATH")
@@ -144,7 +164,11 @@ public class Object extends AbstractBaseEntity {
 
     @Field(value = "TENANT_ID")
     @JsonProperty(value = "TENANT_ID")
-    private long tenantId;
+    private String tenantId;
+
+    @Field(value = "TENANT_NAME")
+    @JsonProperty(value = "TENANT_NAME")
+    private String tenantName;
 
     @Field(value = "OBJ_CODE")
     @JsonProperty(value = "OBJ_CODE")
@@ -226,60 +250,4 @@ public class Object extends AbstractBaseEntity {
     @JsonProperty(value = "OWN_TENANT_ID")
     private String ownTenantId;
 
-    @Field(value = "HTML_HEADER")
-    @JsonProperty(value = "HTML_HEADER")
-    private String htmlHeader;
-
-    @Field(value = "IS_LINK_OBJ")
-    @JsonProperty(value = "IS_LINK_OBJ")
-    private int isLinkObj;
-
-    @Field(value = "REPORT_TYPE")
-    @JsonProperty(value = "REPORT_TYPE")
-    private String reportType;
-
-    @Field(value = "FOR_QBH")
-    @JsonProperty(value = "FOR_QBH")
-    private String forQBH;
-
-    @Field(value = "FOR_V3")
-    @JsonProperty(value = "FOR_V3")
-    private String forV3;
-
-    @Field(value = "ORG_HOST_ID")
-    @JsonProperty(value = "ORG_HOST_ID")
-    private String orgHostId;
-
-    @Field(value = "NOTE")
-    @JsonProperty(value = "NOTE")
-    private int note;
-
-    @Field(value = "IS_CONNECTED")
-    @JsonProperty(value = "IS_CONNECTED")
-    private String isConnected;
-
-
-//    @Field(value = "PARENT_NAME")
-//    @JsonProperty(value = "PARENT_NAME")
-//    private String parentName;
-//
-//    @Field(value = "OBJ_TYPE_NAME")
-//    @JsonProperty(value = "OBJ_TYPE_NAME")
-//    private String objTypeName;
-//
-//    @Field(value = "SUBMIT_TYPE_NAME")
-//    @JsonProperty(value = "SUBMIT_TYPE_NAME")
-//    private String submitTypeName;
-//
-//    @Field(value = "PROGRAM_CODE")
-//    @JsonProperty(value = "PROGRAM_CODE")
-//    private String programCode;
-//
-//    @Field(value = "PROGRAM_NAME")
-//    @JsonProperty(value = "PROGRAM_NAME")
-//    private String programName;
-//
-//    @Field(value = "TENANT_NAME")
-//    @JsonProperty(value = "TENANT_NAME")
-//    private String tenantName;
 }

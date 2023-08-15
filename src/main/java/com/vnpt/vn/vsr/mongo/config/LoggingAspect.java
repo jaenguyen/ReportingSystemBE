@@ -11,12 +11,17 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 
+/*
+    class cấu hình các logging tự động
+ */
+
 @Aspect
 public class LoggingAspect {
 
     private Logger logger(JoinPoint joinPoint) {
         return LoggerFactory.getLogger(joinPoint.getSignature().getDeclaringTypeName());
     }
+
 
     /**
      * Pointcut that matches all repositories, services and Web REST endpoints.
@@ -34,7 +39,7 @@ public class LoggingAspect {
     /**
      * Pointcut that matches all Spring beans in the application's main packages.
      */
-    @Pointcut("within(com.vnpt.vn.vsr.mongo.repository..*)" + " || within(com.vnpt.vn.vsr.mongo.service.impl..*)" + " || within(com.vnpt.vn.vsr.mongo.controller..*)" + " || within(com.vnpt.vn.vsr.mongo.job..*)")
+    @Pointcut("within(com.vnpt.vn.vsr.mongo.repository..*)" + " || within(com.vnpt.vn.vsr.mongo.service.impl..*)" + " || within(com.vnpt.vn.vsr.mongo.controller..*)"+ " || within(com.vnpt.vn.vsr.mongo.job..*)")
     public void applicationPackagePointcut() {
         // Method is empty as this is just a Pointcut, the implementations are in the advices.
     }
@@ -43,7 +48,7 @@ public class LoggingAspect {
      * Advice that logs methods throwing exceptions.
      *
      * @param joinPoint join point for advice.
-     * @param e         exception.
+     * @param e exception.
      */
     @AfterThrowing(pointcut = "applicationPackagePointcut() && springBeanPointcut()", throwing = "e")
     public void logAfterThrowing(JoinPoint joinPoint, Throwable e) {
@@ -81,4 +86,5 @@ public class LoggingAspect {
             throw e;
         }
     }
+
 }

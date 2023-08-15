@@ -9,11 +9,13 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.sql.Date;
 
+
+//shifl+alt+u => camelcase
+// ctr+alt+l => format
 @Data
 @Document(collection = "OR_DATAROW")
 @NoArgsConstructor
 public class OrDataRow extends AbstractBaseEntity {
-
     @Transient
     public static final String SEQUENCE_NAME = "OR_DATAROW_SEQ";
 
@@ -21,20 +23,59 @@ public class OrDataRow extends AbstractBaseEntity {
     private long dataId;
     @Field(value = "ORG_ID")
     private String orgId;
+
+    @Field(value = "IND_CODE")
+    private String indCode;
+
+    @Field(value = "IND_NAME")
+    private String indName;
+
+    @Field(value = "COMMAND")
+    private String command;
+
+    @Field(value = "IND_UNIT")
+    private String indUnit;
+    @Field(value = "ATTR_FORMULA_FORBIT")
+    private String attrFormulaForbit;
+
+    @Field(value = "GROUP_ID")
+    private String groupId;
+
+    @Field(value = "IDX")
+    private String idx;
+
+    @Field(value = "IND_INDEX")
+    private String indIndex;
+
+    @Field(value = "IND_TYPE")
+    private String indType;
+
+    @Field(value = "IS_SUB_IND")
+    private String isSubInd;
+
+    @Field(value = "IS_SUMARY")
+    private String isSumary;
+
+    @Field(value = "PARENT_FIELD_ID")
+    private String parentFieldId;
+
+    @Field(value = "PARENT_IND_ID")
+    private String parentIndId;
+
     @Field(value = "TIME_ID")
     private String timeId;
     @Field(value = "IND_ID")
     private String indId;
     @Field(value = "FD01")
-    private Date FD01;
+    private String FD01;
     @Field(value = "FD02")
-    private Date FD02;
+    private String FD02;
     @Field(value = "FD03")
-    private Date FD03;
+    private String FD03;
     @Field(value = "FD04")
-    private Date FD04;
+    private String FD04;
     @Field(value = "FD05")
-    private Date FD05;
+    private String FD05;
     @Field(value = "OBJ_ID")
     private String objId;
     @Field(value = "FN21")
@@ -440,95 +481,95 @@ public class OrDataRow extends AbstractBaseEntity {
     @Field(value = "FN120")
     private String FN120;
     @Field(value = "FC01")
-    private Date FC01;
+    private String FC01;
     @Field(value = "FC17_X")
-    private Date FC17_X;
+    private String FC17_X;
     @Field(value = "FC23_X")
-    private Date FC23_X;
+    private String FC23_X;
     @Field(value = "FC02")
-    private Date FC02;
+    private String FC02;
     @Field(value = "FC03")
-    private Date FC03;
+    private String FC03;
     @Field(value = "FC04")
-    private Date FC04;
+    private String FC04;
     @Field(value = "FC05")
-    private Date FC05;
+    private String FC05;
     @Field(value = "FC06")
-    private Date FC06;
+    private String FC06;
     @Field(value = "FC07")
-    private Date FC07;
+    private String FC07;
     @Field(value = "FC08")
-    private Date FC08;
+    private String FC08;
     @Field(value = "FC09")
-    private Date FC09;
+    private String FC09;
     @Field(value = "FC10")
-    private Date FC10;
+    private String FC10;
     @Field(value = "FC11")
-    private Date FC11;
+    private String FC11;
     @Field(value = "FC12")
-    private Date FC12;
+    private String FC12;
     @Field(value = "FC13")
-    private Date FC13;
+    private String FC13;
     @Field(value = "FC14")
-    private Date FC14;
+    private String FC14;
     @Field(value = "FC15")
-    private Date FC15;
+    private String FC15;
     @Field(value = "FC16")
-    private Date FC16;
+    private String FC16;
     @Field(value = "FC17")
-    private Date FC17;
+    private String FC17;
     @Field(value = "FC18")
-    private Date FC18;
+    private String FC18;
     @Field(value = "FC19")
-    private Date FC19;
+    private String FC19;
     @Field(value = "FC20")
-    private Date FC20;
+    private String FC20;
     @Field(value = "FC21")
-    private Date FC21;
+    private String FC21;
     @Field(value = "FC22_1")
-    private Date FC22_1;
+    private String FC22_1;
     @Field(value = "FC22")
-    private Date FC22;
+    private String FC22;
     @Field(value = "FC23")
-    private Date FC23;
+    private String FC23;
     @Field(value = "FC24")
-    private Date FC24;
+    private String FC24;
     @Field(value = "FC25")
-    private Date FC25;
+    private String FC25;
     @Field(value = "FC26")
-    private Date FC26;
+    private String FC26;
     @Field(value = "FC27")
-    private Date FC27;
+    private String FC27;
     @Field(value = "FC28")
-    private Date FC28;
+    private String FC28;
     @Field(value = "FC29")
-    private Date FC29;
+    private String FC29;
     @Field(value = "FC30")
-    private Date FC30;
+    private String FC30;
     @Field(value = "FC31")
-    private Date FC31;
+    private String FC31;
     @Field(value = "FC32")
-    private Date FC32;
+    private String FC32;
     @Field(value = "FC33")
-    private Date FC33;
+    private String FC33;
     @Field(value = "FC34")
-    private Date FC34;
+    private String FC34;
     @Field(value = "FC35")
-    private Date FC35;
+    private String FC35;
     @Field(value = "FC36")
-    private Date FC36;
+    private String FC36;
     @Field(value = "FC37")
-    private Date FC37;
+    private String FC37;
     @Field(value = "FC38")
-    private Date FC38;
+    private String FC38;
     @Field(value = "FC39")
-    private Date FC39;
+    private String FC39;
     @Field(value = "FC40")
-    private Date FC40;
+    private String FC40;
     @Field(value = "FC41")
-    private Date FC41;
+    private String FC41;
     @Field(value = "FC42")
-    private Date FC42;
+    private String FC42;
     @Field(value = "VERSION_DATA")
     private String versionData;
     @Field(value = "VERSION_LAST")
@@ -893,46 +934,23 @@ public class OrDataRow extends AbstractBaseEntity {
     private String FN299;
     @Field(value = "FN300")
     private String FN300;
-    @Field(value = "FLD_CODE_FIX")
-    private String fldCodeFix;
-
-
-//    @Field(value = "IND_CODE")
-//    private String indCode;
-//    @Field(value = "IND_NAME")
-//    private String indName;
-//    @Field(value = "COMMAND")
-//    private String command;
-//    @Field(value = "IND_UNIT")
-//    private String indUnit;
-//    @Field(value = "ATTR_FORMULA_FORBIT")
-//    private String attrFormulaForbit;
-//    @Field(value = "GROUP_ID")
-//    private String groupId;
-//    @Field(value = "IDX")
-//    private String idx;
-//    @Field(value = "IND_INDEX")
-//    private String indIndex;
-//    @Field(value = "IND_TYPE")
-//    private String indType;
-//    @Field(value = "IS_SUB_IND")
-//    private String isSubInd;
-//    @Field(value = "IS_SUMARY")
-//    private String isSumary;
-//    @Field(value = "PARENT_FIELD_ID")
-//    private String parentFieldId;
-//    @Field(value = "PARENT_IND_ID")
-//    private String parentIndId;
 
     public void setField(String fld_code, String value) throws Exception {
-        java.lang.reflect.Field field = this.getClass().getDeclaredField(fld_code);
-        field.setAccessible(true);
-        field.set(this, value);
+        try {
+            java.lang.reflect.Field field = this.getClass().getDeclaredField(fld_code.trim());
+            field.setAccessible(true);
+            field.set(this, value);
+        } catch (Exception e) {
+        }
     }
 
     public String getField(String fld_code) throws Exception {
-        java.lang.reflect.Field field = this.getClass().getDeclaredField(fld_code);
-        field.setAccessible(true);
-        return (String) field.get(this);
+        try {
+            java.lang.reflect.Field field = this.getClass().getDeclaredField(fld_code);
+            field.setAccessible(true);
+            return (String) field.get(this);
+        } catch (Exception e) {
+        }
+        return null;
     }
 }

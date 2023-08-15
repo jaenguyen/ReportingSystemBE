@@ -8,6 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
@@ -15,6 +16,7 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.ServletRequestBindingException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -25,7 +27,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import java.util.ArrayList;
 import java.util.List;
 
+@ControllerAdvice
 public class HandlerException extends ResponseEntityExceptionHandler {
+    
 
     //400
     @Override
@@ -69,14 +73,14 @@ public class HandlerException extends ResponseEntityExceptionHandler {
     }
 
     //
-    @ExceptionHandler({MethodArgumentTypeMismatchException.class})
+    @ExceptionHandler({ MethodArgumentTypeMismatchException.class })
     public ResponseEntity<Object> handleMethodArgumentTypeMismatch(final MethodArgumentTypeMismatchException ex, final WebRequest request) {
         logger.info(ex.getClass().getName());
         final String error = "Tham số: " + ex.getName() + " nên có kiểu dữ liệu là: " + ex.getRequiredType().getName();
         return new ResponseEntity<>(new DataResponse(1, "Thất bại", error), new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler({ConstraintViolationException.class})
+    @ExceptionHandler({ ConstraintViolationException.class })
     public ResponseEntity<Object> handleConstraintViolation(final ConstraintViolationException ex, final WebRequest request) {
         logger.info(ex.getClass().getName());
         final List<String> errors = new ArrayList<>();
@@ -119,8 +123,9 @@ public class HandlerException extends ResponseEntityExceptionHandler {
     }
 
     // 500
-    @ExceptionHandler({Exception.class})
+    @ExceptionHandler({ Exception.class })
     public ResponseEntity<Object> handleAll(final Exception ex, final WebRequest request) {
         return new ResponseEntity<>(new DataResponse(1, "Thất bại", "Lỗi server"), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
 }

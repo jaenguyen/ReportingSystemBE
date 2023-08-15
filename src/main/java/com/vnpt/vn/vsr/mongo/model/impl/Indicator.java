@@ -5,14 +5,18 @@ import com.vnpt.vn.vsr.mongo.model.AbstractBaseEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.util.List;
+
+//shifl+alt+u => camelcase
+// ctr+alt+l => format
 @Data
 @Document(collection = "OR_INDICATOR")
 @NoArgsConstructor
 public class Indicator extends AbstractBaseEntity {
-
     @Transient
     public static final String SEQUENCE_NAME = "OR_INDICATOR_SEQ";
 
@@ -31,7 +35,7 @@ public class Indicator extends AbstractBaseEntity {
     @Field(value = "IS_MULTI")
     private long isMulti;
     @Field(value = "PARENT_ID")
-    private long parentId;
+    private String parentId;
     @Field(value = "FORMULA")
     private String formula;
     @Field(value = "NOTE")
@@ -72,17 +76,22 @@ public class Indicator extends AbstractBaseEntity {
     private long isTpl;
     @Field(value = "IS_OFFICAL")
     private long isOffical;
+    @Field(value = "ORG_TYPE")
+    private long orgType;
 
+    @Field(value = "ORG_CODE")
+    private String orgCode;
 
-//    @Field(value = "ORG_TYPE")
-//    private long orgType;
-//    @Field(value = "ORG_CODE")
-//    private String orgCode;
-//    @Field(value = "ORG_NAME")
-//    private String orgName;
-//    @Field(value = "ORG_TYPE_NAME")
-//    private String orgTypeName;
-//    @Field(value = "TENANT_NAME")
-//    @JsonProperty(value = "TENANT_NAME")
-//    private String tenantName;
+    @Field(value = "ORG_NAME")
+    private String orgName;
+
+    @Field(value = "ORG_TYPE_NAME")
+    private String orgTypeName;
+
+    @Field(value = "TENANT_NAME")
+    @JsonProperty(value = "TENANT_NAME")
+    private String tenantName;
+
+    private long rootId;
+    private OrIndGrant orIndGrantTmp;
 }

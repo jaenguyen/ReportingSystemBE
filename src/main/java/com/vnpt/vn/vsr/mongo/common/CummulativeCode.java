@@ -1,7 +1,6 @@
 package com.vnpt.vn.vsr.mongo.common;
 
 public enum CummulativeCode {
-
     ANY(-1),
     PRE(1),
     INC_M(2),
@@ -45,7 +44,7 @@ public enum CummulativeCode {
         else if (text.contains("INC_CD")) return INC_CD;
         else if (text.contains("EXTM")) return EXTM;
         else if (text.contains("EXM")) return EXM;
-        else return null;
+        else return ANY;
     }
 
     public String valueOf(int value) {
@@ -82,4 +81,3 @@ public enum CummulativeCode {
         return "UNKNOWN";
     }
 }
-

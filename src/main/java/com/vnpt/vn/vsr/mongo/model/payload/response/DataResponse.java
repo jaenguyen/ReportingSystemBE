@@ -11,11 +11,12 @@ import lombok.Setter;
 @Getter
 @Setter
 public class DataResponse {
-
     @JsonProperty(value = "err_code")
     private int errCode;
+
     @JsonProperty(value = "err_msg")
     private String errMsg;
+
     private Object data;
 
     public DataResponse(int errCode, String errMsg) {

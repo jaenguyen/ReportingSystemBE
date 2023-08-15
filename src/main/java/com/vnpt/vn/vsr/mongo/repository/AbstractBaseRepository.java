@@ -7,6 +7,7 @@ import org.springframework.data.repository.NoRepositoryBean;
 import java.io.Serializable;
 
 @NoRepositoryBean
-public interface AbstractBaseRepository <T extends AbstractBaseEntity, ID extends Serializable>
+public interface AbstractBaseRepository<T extends AbstractBaseEntity, ID extends Serializable>
         extends MongoRepository<T, ID> {
+
 }

@@ -13,3 +13,4 @@ public class LoggingAspectConfiguration {
         return new LoggingAspect();
     }
 }
+

@@ -8,6 +8,9 @@ import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+
+//shifl+alt+u => camelcase
+// ctr+alt+l => format
 @Data
 @Document(collection = "OR_ATTRIBUTE")
 @NoArgsConstructor
@@ -15,7 +18,7 @@ public class OrAttribute extends AbstractBaseEntity {
 
     @Transient
     public static final String SEQUENCE_NAME = "OR_ATTRIBUTE_SEQ";
-
+    
     @Field(value = "ATTR_ID")
     private long attrId;
     @Field(value = "ATTR_CODE")
@@ -39,7 +42,7 @@ public class OrAttribute extends AbstractBaseEntity {
     @Field(value = "NOTE")
     private String note;
     @Field(value = "PARENT_ID")
-    private long parentId;
+    private String parentId;
     @Field(value = "FORMULA")
     private String formula;
     @Field(value = "PRIORITY")
@@ -84,29 +87,15 @@ public class OrAttribute extends AbstractBaseEntity {
     private long idx;
     @Field(value = "ATTR_CATEGORY")
     private long attrCategory;
-    @Field(value = "ATTR_CATEGORY_VAL")
-    private String attrCategoryVal;
-    @Field(value = "ATTR_DESC")
-    private String attrDesc;
-    @Field(value = "IS_TPL")
-    private int isTpl;
-    @Field(value = "IS_STEP")
-    private int isStep;
-    @Field(value = "FIELD_ROOT_ID")
-    private String fieldRootId;
-    @Field(value = "IS_PREF")
-    private int isPref;
-    @Field(value = "OBJ_ID_PREF")
-    private String objIdPref;
-    @Field(value = "TIME_REF_FORMAT")
-    private int TIME_REF_FORMAT;
-
 
     @Field(value = "FORMULA_BASIC")
     private String formulaBasic;
-//    @Field(value = "COMMAND")
-//    private String command;
-//    @Field(value = "TENANT_NAME")
-//    @JsonProperty(value = "TENANT_NAME")
-//    private String tenantName;
+
+    @Field(value = "COMMAND")
+    private String command;
+    @Field(value = "TENANT_NAME")
+    @JsonProperty(value = "TENANT_NAME")
+    private String tenantName;
+    private long rootId;
+
 }

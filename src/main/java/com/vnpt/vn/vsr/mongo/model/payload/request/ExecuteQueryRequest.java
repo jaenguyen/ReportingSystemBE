@@ -11,7 +11,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ExecuteQueryRequest {
-
     @JsonProperty(value = "fcode")
     private String fCode;
     private String func;
